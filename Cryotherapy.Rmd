@@ -1,0 +1,151 @@
+---
+title: "Cryotherapy"
+author: "Jennifer Vargas"
+date: "2024-10-16"
+output: html_document
+---
+
+```{r}
+
+data <- read_excel("/Users/jennifervargas/Desktop/Cryotherapy.xlsx")
+str(data)
+
+summary(data)
+
+
+```
+
+```{r}
+# Checking for missing values
+sum(is.na(data))
+```
+
+
+```{r}
+# Histogram for Age
+ggplot(data, aes(x = age)) +
+  geom_histogram(binwidth = 5, fill = "lightblue", color = "black") +
+  labs(title = "Histogram of Age",
+       x = "Age",
+       y = "Frequency") +
+  theme_minimal()
+
+
+
+```
+
+
+```{r}
+
+# Boxplot for Age by Result of Treatment
+ggplot(data, aes(x = as.factor(Result_of_Treatment), y = age)) +
+  geom_boxplot() +
+  labs(title = "Boxplot of Age by Treatment Result",
+       x = "Result of Treatment (0 = Unsuccessful, 1 = Successful)",
+       y = "Age") +
+  theme_minimal()
+
+
+
+```
+
+
+
+
+
+
+```{r}
+
+library(ggplot2)
+
+# Scatter plot of Age vs. Area by Result_of_Treatment
+#results of treatment:
+# 0 = The patient did not respond to the treatment (cryotherapy or immunotherapy was unsuccessful).
+#1 = The patient responded positively to the treatment (the treatment was effective).
+
+
+ggplot(data, aes(x = age, y = Area, color = as.factor(Result_of_Treatment))) +
+  geom_point() +
+  labs(title = "Age vs Area by Treatment Result")
+
+#Treatement works better when people are 30 and younger.
+
+```
+```{r}
+ggplot(data, aes(x = age, y = Number_of_Warts, color = as.factor(Result_of_Treatment))) +
+  geom_point(alpha = 0.6) +
+  labs(title = "Scatter Plot of Age vs. Number of Warts",
+       x = "Age",
+       y = "Number of Warts",
+       color = "Result of Treatment") +
+  theme_minimal() +
+  scale_color_manual(values = c("red", "blue"))  
+
+
+
+```
+
+```{r}
+# 1st Model:Logistic Regression
+# Spliting data into training and testing sets (70% training, 30% testing)
+set.seed(123)
+train_index <- sample(1:nrow(data), 0.7 * nrow(data))
+train_data <- data[train_index, ]
+test_data <- data[-train_index, ]
+
+# Logistic Regression model
+log_model <- glm(Result_of_Treatment ~ sex + age + Number_of_Warts + Area + Type + Time,
+                 family = binomial(link = "logit"), data = train_data)
+
+summary(log_model)
+
+# Making predictions
+log_pred <- predict(log_model, newdata = test_data, type = "response")
+log_pred_class <- ifelse(log_pred > 0.5, 1, 0)
+
+# Confusion matrix and accuracy
+table(Predicted = log_pred_class, Actual = test_data$Result_of_Treatment)
+accuracy <- mean(log_pred_class == test_data$Result_of_Treatment)
+print(paste("Logistic Regression Accuracy:", accuracy))
+
+```
+
+```{r}
+# Evaluating the performance of Logistic Regression model
+library(caret)
+
+# Predict the class (0 or 1) based on the logistic regression model
+predicted_classes <- ifelse(predicted_probs > 0.5, 1, 0)
+
+# Create confusion matrix
+conf_matrix <- confusionMatrix(as.factor(predicted_classes), as.factor(test_data$Result_of_Treatment))
+print(conf_matrix)
+
+
+```
+
+
+
+```{r}
+# 2nd Model: Random Forest 
+
+library(randomForest)
+
+
+rf_model <- randomForest(as.factor(Result_of_Treatment) ~ sex + age + Number_of_Warts + Area + Type + Time, 
+                         data = train_data, ntree = 500)
+
+# Make predictions
+rf_pred <- predict(rf_model, newdata = test_data)
+
+# Confusion matrix and accuracy
+table(Predicted = rf_pred, Actual = test_data$Result_of_Treatment)
+rf_accuracy <- mean(rf_pred == test_data$Result_of_Treatment)
+print(paste("Random Forest Accuracy:", rf_accuracy))
+
+```
+
+
+
+
+
