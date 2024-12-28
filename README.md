@@ -1,7 +1,7 @@
 # Cryotherapy-Prediction-in-R
 
 
-## This project aimed to analyze and model the effectiveness of wart treatments (cryotherapy and immunotherapy) using patient data and various predictive modeling techniques. This dataset contains information about wart treatment results of 90 patients using cryotherapy.
+This project aimed to analyze and model the effectiveness of wart treatments (cryotherapy and immunotherapy) using patient data and various predictive modeling techniques. This dataset contains information about wart treatment results of 90 patients using cryotherapy.
 Data Source: Cryotherapy Dataset
 https://archive.ics.uci.edu/dataset/429/cryotherapy+dataset
 
@@ -22,16 +22,14 @@ The relationships between several key variables such as age, sex, number of wart
 
 2.	**Modeling Techniques:**
 Given the binary nature of the target variable (0 = negative response, 1 = positive response), Logistic Regression and Random Forest were chosen as suitable models. These models are well-suited for classification tasks involving binary outcomes.
-
-    + A Logistic Regression model was built using variables like age, sex, number of warts, wart area, wart type, and treatment time.
+	+ A Logistic Regression model was built using variables like age, sex, number of warts, wart area, wart type, and treatment time.
       . The accuracy of the logistic regression model was 89.29%.
       . Significant predictors included age (p = 0.019) and treatment time (p = 0.002), while other variables like sex and number of warts were not significant.
-
 
     + A Random Forest model was also applied, achieving the same accuracy of 89.29%, with no false negatives but a few false positives.
 	. This model captured non-linear relationships but did not perform significantly better than logistic regression.
 
-3.	**Model Evaluation:**
+4.	**Model Evaluation:**
    + Both models had high accuracy, with logistic regression having a balanced accuracy of 88.75%, and the random forest model demonstrating robustness in detecting successful treatments with no false negatives.
    + However, the Logistic Regression model provided more interpretability with clearer insights into which variables were significant predictors.
 
