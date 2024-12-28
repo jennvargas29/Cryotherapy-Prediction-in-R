@@ -14,16 +14,16 @@ The relationships between several key variables such as age, sex, number of wart
 **Findings:**
 
 1.	**Exploratory Data Analysis:**
-⋅⋅* o	A histogram of age showed the age distribution of patients, with most patients being under 40.
-⋅⋅* o	Boxplots for age by treatment results indicated that younger patients tended to respond better to treatments.
-⋅⋅* o	Scatter plots revealed that treatment success was generally better for patients younger than 30, regardless of the number of warts or the area affected.
-o	No strong correlation was found between the number of warts and the success of the treatment, indicating that other factors like age and treatment time had more predictive power.
+   + A histogram of age showed the age distribution of patients, with most patients being under 40.
+   + Boxplots for age by treatment results indicated that younger patients tended to respond better to treatments.
+   + Scatter plots revealed that treatment success was generally better for patients younger than 30, regardless of the number of warts or the area affected.
+   + No strong correlation was found between the number of warts and the success of the treatment, indicating that other factors like age and treatment time had more predictive power.
 
 
-2.	**Modeling Techniques:**
+3.	**Modeling Techniques:**
 Given the binary nature of the target variable (0 = negative response, 1 = positive response), Logistic Regression and Random Forest were chosen as suitable models. These models are well-suited for classification tasks involving binary outcomes.
 
-⋅⋅* o	A Logistic Regression model was built using variables like age, sex, number of warts, wart area, wart type, and treatment time.
+    + A Logistic Regression model was built using variables like age, sex, number of warts, wart area, wart type, and treatment time.
 	-The accuracy of the logistic regression model was 89.29%.
 	-Significant predictors included age (p = 0.019) and treatment time (p = 0.002), while other variables like sex and number of warts were not significant.
 
